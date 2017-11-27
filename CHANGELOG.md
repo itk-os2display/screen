@@ -1,1 +1,8 @@
-See the shared changelog: https://github.com/aroskanalen/docs/blob/master/CHANGELOG.md
+# itk-os2display/screen
+
+## 5.0.0
+
+* Added ngSanitize.
+* Upgraded angular to 1.6.6.
+* Added uniquie id to slide dom element.
+* Fixed z-index for progress-box.
