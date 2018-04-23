@@ -41,11 +41,11 @@ angular.module('ikApp').factory('socket', ['$rootScope', 'itkLog',
                     var result = regexp.exec(document.cookie);
 
                     // If the cookie was set, use and store it in local storage.
+                    // Remove cookie afterwards.
                     if (result !== null) {
                         localStorage.setItem(name, result[1]);
 
-                        // Remove cookie if it exists.
-                        self.set('', 'Thu, 01 Jan 1970 00:00:00 GMT');
+                        self.setCookie('', 'Thu, 01 Jan 1970 00:00:00 GMT');
 
                         return result[1];
                     }
@@ -56,8 +56,35 @@ angular.module('ikApp').factory('socket', ['$rootScope', 'itkLog',
                 // Set token.
                 self.set = function set (value, expire) {
                     // Set entry in localstorage.
-                    localStorage.removeItem(name);
+                    localStorage.setItem(name, value);
                 };
+
+                self.remove = function remove () {
+                    // Set entry in localstorage.
+                    localStorage.removeItem(name);
+
+                    self.setCookie('', 'Thu, 01 Jan 1970 00:00:00 GMT');
+                };
+
+                self.setCookie = function setCookie (value, expire) {
+                    var cookie = name + '=' + escape(value) + ';';
+
+                    // Defaults to year 2038
+                    if (expire === undefined) {
+                        expire = 'Mon, 18 Jan 2038 00:00:00 GMT';
+                    }
+                    cookie += 'expires=' + expire + ';';
+
+                    cookie += 'path=/;';
+                    cookie += 'domain=' + document.domain + ';';
+
+                    // Check if cookie should be available only over https.
+                    if (config.cookie.secure === true) {
+                        cookie += ' secure';
+                    }
+
+                    document.cookie = cookie;
+                }
             };
 
             return Storage;
