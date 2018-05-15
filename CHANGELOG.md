@@ -1,5 +1,9 @@
 # itk-os2display/screen
 
+## 5.0.4
+
+* Moved cookie to localstorage.
+
 ## 5.0.3
 
 * Fixed issue where slide js was run before it was fully loaded.
